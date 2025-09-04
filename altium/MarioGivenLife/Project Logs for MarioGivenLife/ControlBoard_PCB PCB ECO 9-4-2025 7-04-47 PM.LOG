@@ -1,0 +1,31 @@
+Added Component: Designator=W(DIP40)
+Add component (AddParameter): Name = "Case/Package"; Value = "DIP40"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Clock Frequency"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Frequency"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "I/Os"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Interface"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Operating Temperature"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Min Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Technology"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Nominal Supply Voltage"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RAM Size"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "RoHS Compliant"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=W-3
+Added Pin To Net: NetName=GND Pin=W-8
+Added Pin To Net: NetName=GND Pin=W-13
+Added Pin To Net: NetName=GND Pin=W-18
+Added Pin To Net: NetName=GND Pin=W-23
+Added Pin To Net: NetName=GND Pin=W-28
+Added Pin To Net: NetName=GND Pin=W-33
+Added Pin To Net: NetName=3V3 Pin=W-36
+Added Pin To Net: NetName=GND Pin=W-38
+Added Pin To Net: NetName=VCC Pin=W-40
+Added Pin To Net: NetName=NetP5_2 Pin=P5-2
+Added Pin To Net: NetName=NetP5_2 Pin=R14-1
+Added Pin To Net: NetName=NetP5_2 Pin=W-35
+Added Net: Name=NetP5_2
+Added Member To Class: ClassName=ControlBoard Member=Component W PICO 2 W
