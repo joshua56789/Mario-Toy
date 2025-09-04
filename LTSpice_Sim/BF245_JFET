@@ -1,0 +1,1 @@
+.model BF245 NJF(Beta=550u Betatce=-.5 Rd=1 Rs=1 Lambda=10m Vto=-3.44 Vtotc=0 Is=100E-15 Isr=1p Alpha=10u Vk=100 Cgd=5p M=.3333 Pb=1 Cgs=5p Kf=1E-18 Af=1 mfg=Philips)
