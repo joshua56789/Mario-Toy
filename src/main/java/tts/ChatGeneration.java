@@ -14,6 +14,9 @@ import java.util.Scanner;
 public class ChatGeneration {
     OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
+    public static void main(String[] args) {
+        new ChatGeneration().generate();
+    }
     
     public void generate() {
         Scanner scanner = new Scanner(System.in);
