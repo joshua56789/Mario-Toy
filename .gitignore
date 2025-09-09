@@ -3,3 +3,5 @@
 # Ignore Altium extra files
 History/
 __Previews/
+
+.env
