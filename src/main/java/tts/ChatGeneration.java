@@ -1,63 +1,109 @@
 package tts;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ChatGeneration {
 
-    // Replace this with your actual API key
-    // get api key from .env file
     private static final String API_KEY = System.getenv("OPENAI_API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) throws IOException {
+        if (API_KEY == null || API_KEY.isEmpty()) {
+            System.err.println("OPENAI_API_KEY environment variable not set.");
+            return;
+        }
         Scanner scanner = new Scanner(System.in);
-        System.out.print("You: ");
-        String userInput = scanner.nextLine();
+        Gson gson = new Gson();
 
-        String requestBody = "{\n" +
-            "  \"model\": \"gpt-3.5-turbo\",\n" +
-            "  \"messages\": [\n" +
-            "    {\"role\": \"system\", \"content\": \"You are a helpful cooking assistant.\"},\n" +
-            "    {\"role\": \"user\", \"content\": \"" + userInput + "\"}\n" +
-            "  ]\n" +
-            "}";
+        // Store convo history
+        List<Message> messages = new ArrayList<>();
+        messages.add(new Message("system", "You are a helpful cooking assistant."));
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(API_URL).openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setDoOutput(true);
+        while (true) {
+            System.out.print("You: ");
+            String userInput = scanner.nextLine();
 
-        try (OutputStream os = connection.getOutputStream()) {
-            byte[] input = requestBody.getBytes("utf-8");
-            os.write(input, 0, input.length);
+            if ("exit".equalsIgnoreCase(userInput)) {
+                System.out.println("Exiting chat...");
+                break;
+            }
+
+            messages.add(new Message("user", userInput));
+
+            // Build request JSON
+            JsonObject requestBody = new JsonObject();
+            requestBody.addProperty("model", "gpt-3.5-turbo");
+            requestBody.add("messages", gson.toJsonTree(messages));
+
+            String response = sendPostRequest(API_URL, requestBody.toString());
+
+            if (response == null) {
+                System.out.println("Failed to get response from OpenAI.");
+                continue;
+            }
+
+            // Parse assistant's reply
+            try {
+                JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+                String assistantReply = jsonResponse
+                        .getAsJsonArray("choices")
+                        .get(0).getAsJsonObject()
+                        .getAsJsonObject("message")
+                        .get("content").getAsString();
+
+                System.out.println("GPT: " + assistantReply.trim());
+
+                messages.add(new Message("assistant", assistantReply.trim()));
+
+            } catch (Exception e) {
+                System.err.println("Error parsing OpenAI response:");
+                e.printStackTrace();
+                System.out.println("Raw response: " + response);
+            }
         }
 
-        int status = connection.getResponseCode();
-        InputStream is = (status < 400) ? connection.getInputStream() : connection.getErrorStream();
+        scanner.close();
+    }
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(is));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-
-        in.close();
-        connection.disconnect();
-
-        String jsonResponse = content.toString();
-
+    private static String sendPostRequest(String apiUrl, String jsonBody) {
         try {
-            String reply = jsonResponse.split("\"content\":\"")[1].split("\"")[0];
-            System.out.println("GPT: " + reply.replace("\\n", "\n"));
-        }
-        catch (Exception e) {
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            try (OutputStream os = connection.getOutputStream()) {
+                byte[] input = jsonBody.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+
+            int status = connection.getResponseCode();
+            InputStream is = (status < 400) ? connection.getInputStream() : connection.getErrorStream();
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                StringBuilder content = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+                return content.toString();
+            } finally {
+                connection.disconnect();
+            }
+        } catch (IOException e) {
+            System.err.println("HTTP Request failed:");
             e.printStackTrace();
-            System.out.println(jsonResponse);
+            return null;
         }
     }
 }
