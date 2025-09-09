@@ -1,73 +1,63 @@
 package tts;
 
-import com.openai.client.OpenAIClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient.*;
-import com.openai.models.chat.completions.ChatCompletionCreateParams;
-import com.openai.models.chat.completions.ChatCompletion;
-
-import com.openai.models.chat.completions.ChatCompletionMessage;
-
-import java.util.List;
+import java.io.*;
+import java.net.*;
 import java.util.Scanner;
 
 public class ChatGeneration {
-    OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
-    public static void main(String[] args) {
-        new ChatGeneration().generate();
-    }
-    
-    public void generate() {
+    // Replace this with your actual API key
+    // get api key from .env file
+    private static final String API_KEY = System.getenv("OPENAI_API_KEY");
+    private static final String API_URL = "https://api.openai.com/v1/chat/completions";
+
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("You: ");
+        String userInput = scanner.nextLine();
 
-        String userMessage = "How do I make spaghetti?";
-        String model = "gpt-4o-mini";
+        String requestBody = "{\n" +
+            "  \"model\": \"gpt-3.5-turbo\",\n" +
+            "  \"messages\": [\n" +
+            "    {\"role\": \"system\", \"content\": \"You are a helpful cooking assistant.\"},\n" +
+            "    {\"role\": \"user\", \"content\": \"" + userInput + "\"}\n" +
+            "  ]\n" +
+            "}";
 
-        System.out.println("Ask question:");
-        userMessage = scanner.nextLine();
+        HttpURLConnection connection = (HttpURLConnection) new URL(API_URL).openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setDoOutput(true);
 
-        ChatCompletionCreateParams.Builder createParams = ChatCompletionCreateParams.builder()
-        .model(model)
-        .addSystemMessage("You're helping me follow a recipe while acting like Mario")
-        .addUserMessage(userMessage);
-        client.chat()
-            .completions()
-            .create(createParams.build())
-            .choices()
-            .stream()
-            .flatMap(choice -> choice.message()
-                .content()
-                .stream())
-            .forEach(System.out::println);
-        do {
-            List<ChatCompletionMessage> messages = client.chat()
-            .completions()
-            .create(createParams.build())
-            .choices()
-            .stream()
-            .map(ChatCompletion.Choice::message)
-            .toList();
+        try (OutputStream os = connection.getOutputStream()) {
+            byte[] input = requestBody.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
 
-            messages.stream()
-            .flatMap(message -> message.content().stream())
-            .forEach(System.out::println);
+        int status = connection.getResponseCode();
+        InputStream is = (status < 400) ? connection.getInputStream() : connection.getErrorStream();
 
-            System.out.println("-----------------------------------");
-            System.out.println("Anything else you would like to know? Otherwise type EXIT to stop the program.");
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
 
-            String userMessageConversation = scanner.next();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
 
-            if ("exit".equalsIgnoreCase(userMessageConversation)) {
-            scanner.close();
-            return;
-            }
+        in.close();
+        connection.disconnect();
 
-            messages.forEach(createParams::addMessage);
-            createParams
-            .addDeveloperMessage("Continue providing help following the same rules as before.")
-            .addUserMessage(userMessageConversation);
+        String jsonResponse = content.toString();
 
-        } while (true);
+        try {
+            String reply = jsonResponse.split("\"content\":\"")[1].split("\"")[0];
+            System.out.println("GPT: " + reply.replace("\\n", "\n"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(jsonResponse);
+        }
     }
 }
