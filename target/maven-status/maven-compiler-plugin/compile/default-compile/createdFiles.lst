@@ -1,1 +1,3 @@
 tts\ChatGeneration.class
+tts\Message.class
+tts\TextToSpeech.class

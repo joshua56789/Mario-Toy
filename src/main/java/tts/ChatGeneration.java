@@ -17,6 +17,10 @@ public class ChatGeneration {
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) throws IOException {
+        System.out.println("Speaking as Mario...");
+        TextToSpeech tts = new TextToSpeech();
+        tts.speak("Hello I am Mario! Let's start cooking!");
+
         if (API_KEY == null || API_KEY.isEmpty()) {
             System.err.println("OPENAI_API_KEY environment variable not set.");
             return;
