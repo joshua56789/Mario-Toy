@@ -1,13 +1,16 @@
+package tts;
+
 import org.vosk.Model;
 import org.vosk.Recognizer;
 import org.vosk.LibVosk;
+import org.vosk.LogLevel;
 
 import javax.sound.sampled.*;
 import java.io.*;
 
 public class SpeechToText {
     public static void speechToText(byte[] audioBytes) throws Exception {
-        LibVosk.setLogLevel(0);
+        LibVosk.setLogLevel(LogLevel.DEBUG); 
         Model model = new Model("model"); // download from alphacephei.com/vosk/models
 
 
