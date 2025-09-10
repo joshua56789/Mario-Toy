@@ -47,6 +47,7 @@ public class ChatGeneration {
         for (Message msg : messages) {
             prompt.append(msg.getRole()).append(": ").append(msg.getContent()).append("\n");
         }
+        System.out.println(prompt.toString());
         return prompt.toString();
     }
 
