@@ -55,10 +55,52 @@ public class ChatGeneration {
         return prompt.toString();
     }
 
+    public static String generateResponse() {
+        if (API_KEY == null || API_KEY.isEmpty()) {
+            System.err.println("OPENAI_API_KEY environment variable not set.");
+            return null;
+        }
+        Gson gson = new Gson();
+
+        // Build single-message conversation using buildPrompt()
+        List<Message> convo = new ArrayList<>();
+        convo.add(new Message("system", buildPrompt()));
+
+        // Build request JSON
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("model", "gpt-3.5-turbo");
+        requestBody.add("messages", gson.toJsonTree(convo));
+
+        String response = sendPostRequest(API_URL, requestBody.toString());
+
+        if (response == null) {
+            System.out.println("Failed to get response from OpenAI.");
+            return null;
+        }
+
+        // Parse assistant's reply
+        try {
+            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+            String assistantReply = jsonResponse
+                    .getAsJsonArray("choices")
+                    .get(0).getAsJsonObject()
+                    .getAsJsonObject("message")
+                    .get("content").getAsString();
+
+            // Add to messages history
+            messages.add(new Message("assistant", assistantReply.trim()));
+
+            return assistantReply.trim();
+        } catch (Exception e) {
+            System.err.println("Error parsing OpenAI response:");
+            e.printStackTrace();
+            System.out.println("Raw response: " + response);
+            return null;
+        }
+    }
     public static void main(String[] args) throws IOException {
         System.out.println("Speaking as Mario...");
-        TextToSpeech tts = new TextToSpeech();
-        tts.speak("Hello I am Mario! Let's start cooking!");
+        TextToSpeech.speak("Hello I am Mario! Let's start cooking!");
 
         if (API_KEY == null || API_KEY.isEmpty()) {
             System.err.println("OPENAI_API_KEY environment variable not set.");
