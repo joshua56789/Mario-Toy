@@ -7,6 +7,7 @@
 #include "hardware/pwm.h"
 
 #include "servo.h"
+#include "DAC.h"
 
 int64_t alarm_callback(alarm_id_t id, void *user_data) {
     // Put your timeout handler code in here
@@ -70,12 +71,16 @@ int main()
     setup_servo();
     set_servo_angle(0); // Start at 0 degrees
     
+    setup_DAC();
+    set_DAC_value(0); // Start at min value (0-65535)
+
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
-        for (int i = 0; i <= 180; i += 10) {
+        for (int i = 0; i <= 4095; i += 10) {
             set_servo_angle(i);
-            sleep_ms(500);
+            set_DAC_value(i);
+            sleep_ms(100);
         }
         // set_servo_angle(0);
         // sleep_ms(3000);

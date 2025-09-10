@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(raspy-mario raspy-mario.cpp servo.cpp)
+add_executable(raspy-mario raspy-mario.cpp servo.cpp DAC.cpp)
 
 pico_set_program_name(raspy-mario "raspy-mario")
 pico_set_program_version(raspy-mario "0.1")
