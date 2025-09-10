@@ -1,5 +1,6 @@
 package tts;
 
+import java.io.IOException;
 import java.util.*;
 
 import javafx.application.Application;
@@ -12,9 +13,7 @@ import javafx.scene.layout.Pane;
 public class App extends Application {
     private static Stage stage;
     @Override
-    public void start(Stage primaryStage) {
-        loadFonts();
-        loadScenes();
+    public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/tts/UserInterface.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
