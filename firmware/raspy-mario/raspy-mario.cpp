@@ -8,6 +8,7 @@
 
 #include "servo.h"
 #include "DAC.h"
+#include "tmp_audio.h"
 
 int64_t alarm_callback(alarm_id_t id, void *user_data) {
     // Put your timeout handler code in here
@@ -77,11 +78,9 @@ int main()
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
-        for (int i = 0; i <= 4095; i += 10) {
-            set_servo_angle(i);
-            set_DAC_value(i);
-            sleep_ms(100);
-        }
+        play_audio();
+        printf("Hello there, general kenobi!\n");
+        sleep_ms(2000);
         // set_servo_angle(0);
         // sleep_ms(3000);
         // set_servo_angle(180);
