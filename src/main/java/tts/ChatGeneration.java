@@ -30,6 +30,10 @@ public class ChatGeneration {
         messages.add(new Message(role, content));
     }
 
+    public static void changeRecipe(String newRecipe) {
+        recipe = newRecipe;
+    }
+
     public static String buildPrompt() {
         StringBuilder prompt = new StringBuilder();
         prompt.append("You are a helpful cooking assistant roleplaying as Mario. Below is the recipe you are guiding me through: \n\n");
@@ -43,7 +47,7 @@ public class ChatGeneration {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        prompt.append("\nConversation history so far:\n");
+        prompt.append("\nConversation history so far, respond to the latest user message:\n");
         for (Message msg : messages) {
             prompt.append(msg.getRole()).append(": ").append(msg.getContent()).append("\n");
         }
