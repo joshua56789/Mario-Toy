@@ -1,18 +1,22 @@
-package tts;
-// Gradle/Maven dependency: org.vosk:vosk (see Vosk docs for versions)
 import org.vosk.Model;
 import org.vosk.Recognizer;
+import org.vosk.LibVosk;
+
+import javax.sound.sampled.*;
+import java.io.*;
 
 public class SpeechToText {
-    public static String recognizeWithVosk(byte[] rawPcmBytes) throws Exception {
-        // Ensure you have downloaded a Vosk model and point modelPath to it
-        try (Model model = new Model("path/to/vosk-model")) {
-            // sampleRate must match your data (e.g., 16000)
-            try (Recognizer recognizer = new Recognizer(model, 16000.0f)) {
-                // feed the raw PCM bytes (16-bit little-endian PCM)
-                recognizer.acceptWaveForm(rawPcmBytes, rawPcmBytes.length);
-                String resultJson = recognizer.getFinalResult();
-                return resultJson; // JSON containing text and confidences
+    public static void speechToText(byte[] audioBytes) throws Exception {
+        LibVosk.setLogLevel(0);
+        Model model = new Model("model"); // download from alphacephei.com/vosk/models
+
+
+        AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
+        try (Recognizer recognizer = new Recognizer(model, 16000)) {
+            if (recognizer.acceptWaveForm(audioBytes, audioBytes.length)) {
+                System.out.println(recognizer.getResult());
+            } else {
+                System.out.println(recognizer.getPartialResult());
             }
         }
     }
