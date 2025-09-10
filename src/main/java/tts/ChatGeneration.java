@@ -16,7 +16,7 @@ public class ChatGeneration {
     private static final String API_KEY = System.getenv("OPENAI_API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
     private static List<Message> messages = new ArrayList<>();
-    private static String recipe = "";
+    public static String recipe = "";
 
     public static void clearMessages() {
         messages.clear();
