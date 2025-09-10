@@ -30,60 +30,45 @@ public class UserInterfaceController {
     }
 
     @FXML
-    private static void recipe(String dish) {
+    private static void recipe(String dish) throws IOException {
         System.out.println("Recipe processing for: " + dish);
-        String apiKey = System.getenv("OPENAI_API_KEY");
-        if (apiKey == null || apiKey.isEmpty()) {
-            System.out.println("OPENAI_API_KEY not set.");
-            return;
-        }
-
-        // Build request JSON
-        JsonObject requestBody = new JsonObject();
-        requestBody.addProperty("model", "gpt-3.5-turbo");
-
-        JsonArray messages = new JsonArray();
-
-        JsonObject systemMsg = new JsonObject();
         String content = new String(Files.readAllBytes(Paths.get("prompts/" + dish + ".txt")));
-        systemMsg.addProperty("role", "system");
-        systemMsg.addProperty("content", "You are a helpful cooking assistant and you are going to help me cook " + dish + " using this recipe." + content);
-        messages.add(systemMsg);
-
-    
+        ChatGeneration.recipe = content;
+        ChatGeneration.clearMessages();
+        TextToSpeech.speak("Now we are cooking " + dish + ". Ask me how to start!");
     }
 
     @FXML
-    private void spaghettiPressed() {
+    private void spaghettiPressed() throws IOException {
         System.out.println("Spaghetti button pressed");
         recipe("spaghetti");
     }
     @FXML
-    private void pastaPressed() {
+    private void pastaPressed() throws IOException {
         System.out.println("Pasta button pressed");
         recipe("pasta");
     }
 
     @FXML
-    private void pizzaPressed() {
+    private void pizzaPressed() throws IOException {
         System.out.println("Pizza button pressed");
         recipe("pizza");
     }
 
     @FXML
-    private void lasagnaPressed() {
+    private void lasagnaPressed() throws IOException {
         System.out.println("Lasagna button pressed");
         recipe("lasagna");
     }
 
     @FXML
-    private void garlicBreadPressed() {
+    private void garlicBreadPressed() throws IOException {
         System.out.println("Garlic Bread button pressed");
         recipe("garlic bread");
     }
 
     @FXML
-    private void tiramisuPressed() {
+    private void tiramisuPressed() throws IOException {
         System.out.println("Tiramisu button pressed");
         recipe("tiramisu");
     }
