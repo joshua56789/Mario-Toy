@@ -4,11 +4,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UserInterfaceController">
    <children>
       <Text layoutX="225.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mario Teaching Cooking" wrappingWidth="149.65689086914062" />
-      <Button layoutX="118.0" layoutY="114.0" mnemonicParsing="false" text="Spaghetti" />
-      <Button layoutX="266.0" layoutY="114.0" mnemonicParsing="false" text="Pasta" />
-      <Button layoutX="410.0" layoutY="114.0" mnemonicParsing="false" text="Pizza" />
+      <Button fx:id="spaghettiButton" layoutX="118.0" layoutY="114.0" mnemonicParsing="false" onMousePressed="#spaghettiPressed" text="Spaghetti" />
+      <Button fx:id="pastaButton" layoutX="266.0" layoutY="114.0" mnemonicParsing="false" onMousePressed="#pastaPressed" text="Pasta" />
+      <Button fx:id="pizzaButton" layoutX="410.0" layoutY="114.0" mnemonicParsing="false" onMousePressed="#pizzaPressed" text="Pizza" />
+      <Button fx:id="lasagnaButton" layoutX="118.0" layoutY="175.0" mnemonicParsing="false" onMousePressed="#lasagnaPressed" text="Lasagna" />
+      <Button fx:id="garlicBreadButton" layoutX="259.0" layoutY="175.0" mnemonicParsing="false" onMousePressed="#garlicBreadPressed" text="Garlic Bread" />
+      <Button fx:id="tiramisuButton" layoutX="410.0" layoutY="175.0" mnemonicParsing="false" onMousePressed="#tiramisuPressed" text="Tiramisu" />
    </children>
 </Pane>
