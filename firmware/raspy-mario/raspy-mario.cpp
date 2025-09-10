@@ -6,6 +6,8 @@
 #include "hardware/uart.h"
 #include "hardware/pwm.h"
 
+#include "servo.h"
+
 int64_t alarm_callback(alarm_id_t id, void *user_data) {
     // Put your timeout handler code in here
     return 0;
@@ -22,8 +24,6 @@ int64_t alarm_callback(alarm_id_t id, void *user_data) {
 // Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments
 #define UART_TX_PIN 4
 #define UART_RX_PIN 5
-
-
 
 int main()
 {
@@ -59,30 +59,27 @@ int main()
     // Send out a string, with CR/LF conversions
     uart_puts(UART_ID, " Hello, UART!\n");
 
-    // Setup PWM
-    gpio_set_function(12, GPIO_FUNC_PWM);
+    // Set GPIO 13 HIGH just for fun
+    gpio_init(13);
+    gpio_set_dir(13, GPIO_OUT);
     gpio_set_function(13, GPIO_FUNC_SIO);
     gpio_set_drive_strength(13, GPIO_DRIVE_STRENGTH_12MA);
 
-    gpio_init(13);
+    gpio_put(13, 1);
 
-    gpio_set_mask((1 << 12)); // Set GPIO13 HIGH (servo POSITIVE)
-
-    uint pwm_slice_num = pwm_gpio_to_slice_num(12);
-
-    pwm_config config = pwm_get_default_config();
-
-    pwm_config_set_clkdiv_int(&config, 256);
-    pwm_config_set_wrap(&config, 100);
-
-    pwm_set_gpio_level(12, 80);
-
-    pwm_init(pwm_slice_num, &config, true);
+    setup_servo();
+    set_servo_angle(0); // Start at 0 degrees
     
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        for (int i = 0; i <= 180; i += 10) {
+            set_servo_angle(i);
+            sleep_ms(500);
+        }
+        // set_servo_angle(0);
+        // sleep_ms(3000);
+        // set_servo_angle(180);
+        // sleep_ms(3000);
     }
 }
