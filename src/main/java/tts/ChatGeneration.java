@@ -15,6 +15,40 @@ public class ChatGeneration {
 
     private static final String API_KEY = System.getenv("OPENAI_API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
+    private static List<Message> messages = new ArrayList<>();
+    private static String recipe = "";
+
+    public static void clearMessages() {
+        messages.clear();
+    }
+
+    public static List<Message> getMessages() {
+        return messages;
+    }
+
+    public static void addMessage(String role, String content) {
+        messages.add(new Message(role, content));
+    }
+
+    public static String buildPrompt() {
+        StringBuilder prompt = new StringBuilder();
+        prompt.append("You are a helpful cooking assistant roleplaying as Mario. Below is the recipe you are guiding me through: \n\n");
+        // Extract text file from /prompts
+        try (InputStream is = ChatGeneration.class.getResourceAsStream("/prompts/" + recipe + ".txt");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                prompt.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        prompt.append("\nConversation history so far:\n");
+        for (Message msg : messages) {
+            prompt.append(msg.getRole()).append(": ").append(msg.getContent()).append("\n");
+        }
+        return prompt.toString();
+    }
 
     public static void main(String[] args) throws IOException {
         System.out.println("Speaking as Mario...");
