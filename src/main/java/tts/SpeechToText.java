@@ -20,9 +20,9 @@ public class SpeechToText {
      * @return the recognized text (empty string if no text)
      * @throws Exception on IO / audio errors
      */
-    public static String transcribeFromPcmBytes(byte[] audioBytes, String modelPath) throws Exception {
+    public static String transcribeFromPcmBytes(byte[] audioBytes) throws Exception {
 
-        try (Model model = new Model(modelPath);
+        try (Model model = new Model("Model");
              // recognizer sample rate must match the audio (16000)
              Recognizer recognizer = new Recognizer(model, 16000.0f)) {
 
