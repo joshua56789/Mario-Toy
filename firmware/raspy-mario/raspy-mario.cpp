@@ -8,13 +8,13 @@
 
 #include "servo.h"
 #include "DAC.h"
+#include "tmp_audio.h"
+#include "comms.h"
 
 int64_t alarm_callback(alarm_id_t id, void *user_data) {
     // Put your timeout handler code in here
     return 0;
 }
-
-
 
 // UART defines
 // By default the stdout UART is `uart0`, so we will use the second one
@@ -28,7 +28,7 @@ int64_t alarm_callback(alarm_id_t id, void *user_data) {
 
 int main()
 {
-    stdio_init_all();
+    setup_comms();
 
     // Initialise the Wi-Fi chip
     if (cyw43_arch_init()) {
@@ -77,11 +77,19 @@ int main()
     // For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart
 
     while (true) {
-        for (int i = 0; i <= 4095; i += 10) {
-            set_servo_angle(i);
-            set_DAC_value(i);
-            sleep_ms(100);
-        }
+        // Test sending messages
+        Message msg;
+        msg.type = MessageType::PING;
+        send_message(msg);
+        sleep_ms(1000);
+        msg.type = MessageType::MESSAGE;
+        const char* test_str = "Hello from Raspy Mario!";
+        msg.text.length = strlen(test_str);
+        msg.text.text = (uint8_t*)test_str;
+        send_message(msg);
+        sleep_ms(1000);
+        stdio_flush();
+        play_audio();
         // set_servo_angle(0);
         // sleep_ms(3000);
         // set_servo_angle(180);

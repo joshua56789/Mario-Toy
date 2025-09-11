@@ -3,11 +3,11 @@
 #include "pico/stdlib.h"
 
 constexpr uint16_t DAC_PWM_PIN = 20;
-constexpr uint16_t DAC_WRAP_LEVEL = 4095;
+constexpr uint16_t DAC_WRAP_LEVEL = 255;
 constexpr uint16_t DAC_MIN_PERCENT_DUTY = (uint16_t)(DAC_WRAP_LEVEL * 0.0f);
 constexpr uint16_t DAC_MAX_PERCENT_DUTY = (uint16_t)(DAC_WRAP_LEVEL * 1.0f);
-constexpr uint16_t DAC_INC_PER_STEP = (DAC_MAX_PERCENT_DUTY - DAC_MIN_PERCENT_DUTY) / 4095;
-constexpr uint16_t DAC_RESOLUTION = 4095; // 16-bit resolution
+constexpr uint16_t DAC_INC_PER_STEP = (DAC_MAX_PERCENT_DUTY - DAC_MIN_PERCENT_DUTY) / DAC_WRAP_LEVEL;
+constexpr uint16_t DAC_RESOLUTION = 256; // 8-bit resolution
 constexpr uint16_t DAC_MID_PERCENT_DUTY = (DAC_MIN_PERCENT_DUTY + DAC_MAX_PERCENT_DUTY) / 2;
 constexpr uint16_t DAC_NOISE_FLOOR = (uint16_t)(DAC_WRAP_LEVEL * 0.02f); // 2% noise floor
 constexpr uint16_t DAC_NOISE_CEILING = (uint16_t)(DAC_WRAP_LEVEL * 0.98f); // 98% noise ceiling
