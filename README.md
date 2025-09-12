@@ -26,7 +26,7 @@ Create a “Model” Folder under `src/main/java` in the project, and paste the 
 1. Currently, the voice input can be taken when the play button on the interface is pressed. Speak, and then click the stop button once done. Soon you will see your text get printed in the terminal.
 
 > [!NOTE]
-> Because there is no OpenAI credit at the moment, the response generation function simply returns a placeholder text, “Placeholder response” every time. (The function itself is written but we will add credit later)**
+> Because there is no OpenAI credit at the moment, the response generation function simply returns a placeholder text, “Placeholder response” every time. (The function itself is written but we will add credit later)
 
 2. These use the functions `startRecording()` and `stopRecording()` in the `SpeechToText.java` file under the `src/main/java/tss` folder. If we want to use low level logic to record the voice instead (e.g. holding a button in the Mario toy to record), then you can try to connect that logic to trigger these functions on pressing and letting go etc.
 
