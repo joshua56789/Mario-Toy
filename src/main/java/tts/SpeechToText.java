@@ -25,7 +25,7 @@ public class SpeechToText {
      */
     public static String transcribeFromPcmBytes(byte[] audioBytes) throws Exception {
 
-        try (Model model = new Model("Model");
+        try (Model model = new Model("src/main/java/Model"); // path to the Vosk model directory
              // recognizer sample rate must match the audio (16000)
              Recognizer recognizer = new Recognizer(model, 16000.0f)) {
 
@@ -64,7 +64,7 @@ public class SpeechToText {
         return json;
     }
     public static void main(String[] args)  {
-        Path p = Paths.get("hello_pcm_16k_mono.pcm"); 
+        Path p = Paths.get("src/main/java/tts/hello_pcm_16k_mono.pcm"); 
         byte[] audioBytes;
 
         String text = "";
