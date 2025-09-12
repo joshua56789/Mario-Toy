@@ -7,13 +7,15 @@
 2. Pull the latest changes from the main branch.
 3. Download the **vosk-model-small-en-us-0.15** speech to text model from this link: https://alphacephei.com/vosk/models
 
+![Model](images/model_ss.png)
+
 4. Copy the following contents from the downloaded folder.
 
-![Model](images/model_ss.png)
+![Model Content](images/model_content_ss.png)
 
 Create a “Model” Folder under `src/main/java` in the project, and paste the contents into the `src/main/java/Model` folder (do this through the file explorer or smth).
 
-![Model Content](images/model_content_ss.png)
+![Model](images/project_model_folder_ss.png)
 
 5. In the terminal, in the root directory of the project (should just be the ecse toy folder), run the following one by one:
 - `.\mvnw.cmd clean install`
