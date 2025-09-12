@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/tts/UserInterface.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/fxml/UserInterface.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
         primaryStage.setScene(scene);

@@ -34,6 +34,7 @@ public class UserInterfaceController {
     @FXML
     private void initialize() {
         System.out.println("Initialized User Interface Controller");
+        new Thread(() -> TextToSpeech.speak("Hello I am Mario, letsa start cooking!")).start();
     }
 
     @FXML
