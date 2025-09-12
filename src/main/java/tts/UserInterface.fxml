@@ -91,5 +91,13 @@
             <Image url="@/images/mario.png" />
          </image>
       </ImageView>
+      <Button fx:id="playButton" alignment="TOP_CENTER" layoutX="49.0" layoutY="41.0" mnemonicParsing="false" onAction="#toggleRecord" prefHeight="36.0" prefWidth="61.0" style="-fx-background-color: #d9c599;" text="▶">
+         <font>
+            <Font name="Tw Cen MT Condensed" size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </Pane>

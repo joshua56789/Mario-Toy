@@ -16,7 +16,7 @@ public class ChatGeneration {
     private static final String API_KEY = System.getenv("OPENAI_API_KEY");
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
     private static List<Message> messages = new ArrayList<>();
-    public static String recipe = "";
+    public static String recipe = "pasta"; // default recipe
 
     public static void clearMessages() {
         messages.clear();
@@ -56,47 +56,48 @@ public class ChatGeneration {
     }
 
     public static String generateResponse() {
-        if (API_KEY == null || API_KEY.isEmpty()) {
-            System.err.println("OPENAI_API_KEY environment variable not set.");
-            return null;
-        }
-        Gson gson = new Gson();
+        // if (API_KEY == null || API_KEY.isEmpty()) {
+        //     System.err.println("OPENAI_API_KEY environment variable not set.");
+        //     return null;
+        // }
+        // Gson gson = new Gson();
 
-        // Build single-message conversation using buildPrompt()
-        List<Message> convo = new ArrayList<>();
-        convo.add(new Message("system", buildPrompt()));
+        // // Build single-message conversation using buildPrompt()
+        // List<Message> convo = new ArrayList<>();
+        // convo.add(new Message("system", buildPrompt()));
 
-        // Build request JSON
-        JsonObject requestBody = new JsonObject();
-        requestBody.addProperty("model", "gpt-3.5-turbo");
-        requestBody.add("messages", gson.toJsonTree(convo));
+        // // Build request JSON
+        // JsonObject requestBody = new JsonObject();
+        // requestBody.addProperty("model", "gpt-3.5-turbo");
+        // requestBody.add("messages", gson.toJsonTree(convo));
 
-        String response = sendPostRequest(API_URL, requestBody.toString());
+        // String response = sendPostRequest(API_URL, requestBody.toString());
 
-        if (response == null) {
-            System.out.println("Failed to get response from OpenAI.");
-            return null;
-        }
+        // if (response == null) {
+        //     System.out.println("Failed to get response from OpenAI.");
+        //     return null;
+        // }
 
-        // Parse assistant's reply
-        try {
-            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
-            String assistantReply = jsonResponse
-                    .getAsJsonArray("choices")
-                    .get(0).getAsJsonObject()
-                    .getAsJsonObject("message")
-                    .get("content").getAsString();
+        // // Parse assistant's reply
+        // try {
+        //     JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+        //     String assistantReply = jsonResponse
+        //             .getAsJsonArray("choices")
+        //             .get(0).getAsJsonObject()
+        //             .getAsJsonObject("message")
+        //             .get("content").getAsString();
 
-            // Add to messages history
-            messages.add(new Message("assistant", assistantReply.trim()));
+        //     // Add to messages history
+        //     messages.add(new Message("assistant", assistantReply.trim()));
 
-            return assistantReply.trim();
-        } catch (Exception e) {
-            System.err.println("Error parsing OpenAI response:");
-            e.printStackTrace();
-            System.out.println("Raw response: " + response);
-            return null;
-        }
+        //     return assistantReply.trim();
+        // } catch (Exception e) {
+        //     System.err.println("Error parsing OpenAI response:");
+        //     e.printStackTrace();
+        //     System.out.println("Raw response: " + response);
+        //     return null;
+        // }
+        return "Placeholder response";
     }
     public static void main(String[] args) throws IOException {
         System.out.println("Speaking as Mario...");
