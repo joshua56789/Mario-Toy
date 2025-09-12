@@ -4,6 +4,9 @@ import org.vosk.Model;
 import org.vosk.Recognizer;
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.sound.sampled.*;
 import java.io.*;
@@ -59,6 +62,24 @@ public class SpeechToText {
             if (obj.has("text")) return obj.get("text").getAsString();
         } catch (Exception ignored) {}
         return json;
+    }
+    public static void main(String[] args)  {
+        Path p = Paths.get("hello_pcm_16k_mono.pcm"); 
+        byte[] audioBytes;
+
+        String text = "";
+        try {
+            audioBytes = Files.readAllBytes(p);
+            try {
+                text = SpeechToText.transcribeFromPcmBytes(audioBytes);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("Recognized: " + text);
     }
 
 }
