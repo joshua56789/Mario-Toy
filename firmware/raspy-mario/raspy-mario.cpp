@@ -8,6 +8,7 @@
 
 #include "servo.h"
 #include "DAC.h"
+#include "led.h"
 #include "tmp_audio.h"
 #include "comms.h"
 
@@ -78,21 +79,21 @@ int main()
 
     while (true) {
         // Test sending messages
-        Message msg;
-        msg.type = MessageType::PING;
-        send_message(msg);
-        sleep_ms(1000);
-        msg.type = MessageType::MESSAGE;
-        const char* test_str = "Hello from Raspy Mario!";
-        msg.text.length = strlen(test_str);
-        msg.text.text = (uint8_t*)test_str;
-        send_message(msg);
-        sleep_ms(1000);
-        stdio_flush();
-        play_audio();
-        // set_servo_angle(0);
-        // sleep_ms(3000);
-        // set_servo_angle(180);
-        // sleep_ms(3000);
+        //Message msg;
+        //msg.type = MessageType::PING;
+        //send_message(msg);
+        //sleep_ms(1000);
+        //msg.type = MessageType::MESSAGE;
+        //const char* test_str = "Hello from Raspy Mario!";
+        //msg.text.length = strlen(test_str);
+        //msg.text.text = (uint8_t*)test_str;
+        //send_message(msg);
+        //sleep_ms(1000);
+        //stdio_flush();
+        //play_audio();
+         set_servo_angle(120);
+         sleep_ms(500);
+         set_servo_angle(0);
+         sleep_ms(500);
     }
 }
