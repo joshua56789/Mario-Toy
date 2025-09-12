@@ -1,6 +1,6 @@
-tts\Message.class
 tts\TextToSpeech.class
 tts\App.class
+tts\UserInterfaceController.class
+tts\Message.class
 tts\ChatGeneration.class
 tts\SpeechToText.class
-tts\UserInterfaceController.class

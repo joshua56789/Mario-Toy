@@ -24,6 +24,11 @@ public class UserInterfaceController {
     private Button garlicBreadButton;
     @FXML
     private Button tiramisuButton;
+    @FXML
+    private Button playButton;
+
+    private boolean isRecording = false;
+    private String userText = "";
 
     @FXML
     private void initialize() {
@@ -79,6 +84,35 @@ public class UserInterfaceController {
     private void tiramisuPressed() throws IOException {
         System.out.println("Tiramisu button pressed");
         recipe("tiramisu");
+    }
+
+    @FXML
+    private void toggleRecord() {
+        System.out.println("Toggle record button pressed");
+        if (isRecording) {
+            // Stop recording
+            isRecording = false;
+            playButton.setText("▶");
+            // Stop the recording and process the userText
+
+            new Thread(() -> {
+                String response = ChatGeneration.generateResponse();
+                System.out.println("Mario response: " + response);
+                TextToSpeech.speak(response);
+            }).start();
+            System.out.println("Recording stopped");
+        } else {
+            // Start recording
+            isRecording = true;
+            playButton.setText("⏸");
+            System.out.println("Recording started");
+            // PLACEHOLDER: Simulate user input for testing
+
+            // This is where you do speech to text and set userText
+            userText = "How do I start?";
+            ChatGeneration.addMessage("user", userText);
+            System.out.println("User said: " + userText);
+        }
     }
 
 }
