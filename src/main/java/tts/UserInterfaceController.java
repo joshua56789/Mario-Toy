@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
@@ -86,33 +87,41 @@ public class UserInterfaceController {
         recipe("tiramisu");
     }
 
-    @FXML
-    private void toggleRecord() {
-        System.out.println("Toggle record button pressed");
-        if (isRecording) {
-            // Stop recording
-            isRecording = false;
-            playButton.setText("▶");
-            // Stop the recording and process the userText
-
-            new Thread(() -> {
-                String response = ChatGeneration.generateResponse();
-                System.out.println("Mario response: " + response);
-                TextToSpeech.speak(response);
-            }).start();
-            System.out.println("Recording stopped");
-        } else {
-            // Start recording
-            isRecording = true;
-            playButton.setText("⏸");
-            System.out.println("Recording started");
-            // PLACEHOLDER: Simulate user input for testing
-
-            // This is where you do speech to text and set userText
-            userText = "How do I start?";
+   @FXML
+private void toggleRecord() {
+    System.out.println("Toggle record button pressed");
+    if (isRecording) {
+        // Stop recording
+        isRecording = false;
+        Platform.runLater(() -> playButton.setText("▶"));
+        // Do audio processing in a background thread
+        new Thread(() -> {
+            byte[] audioBytes = SpeechToText.stopRecording();
+            String userText = "";
+            try {
+                if (audioBytes != null) {
+                    userText = SpeechToText.transcribeFromPcmBytes(audioBytes);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (userText == null || userText.isEmpty()) {
+                userText = "What is the next step?";
+            }
             ChatGeneration.addMessage("user", userText);
             System.out.println("User said: " + userText);
-        }
+
+            String response = ChatGeneration.generateResponse();
+            System.out.println("Mario response: " + response);
+            TextToSpeech.speak(response);
+            System.out.println("Recording stopped");
+        }).start();
+    } else {
+        isRecording = true;
+        Platform.runLater(() -> playButton.setText("⏸"));
+        new Thread(SpeechToText::startRecording).start();
+        System.out.println("Recording started");
     }
+}
 
 }
