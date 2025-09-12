@@ -17,6 +17,7 @@ public class App extends Application {
         stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/tts/UserInterface.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("ECSE Toy");
         primaryStage.show();
