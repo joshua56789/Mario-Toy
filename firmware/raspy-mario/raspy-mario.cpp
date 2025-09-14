@@ -43,6 +43,7 @@ int main()
     set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 0); // Start at
     setup_servo_on_pin(MARIO_RIGHT_ARM_SERVO_PIN);
     set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 0);
+    setup_leds();
     
     setup_DAC();
     set_DAC_value(0); // Start at min value (0-65535)
@@ -72,6 +73,8 @@ int main()
         mario_angry();
         sleep_ms(1000);
         mario_neutral();
+        sleep_ms(1000);
+        mario_rampage();
         sleep_ms(1000);
         mario_murder();
         sleep_ms(1000);

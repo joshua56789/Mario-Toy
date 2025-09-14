@@ -2,7 +2,7 @@
 
 #include "pico/stdlib.h"
 
-constexpr uint16_t LED1_PIN = 6;
+constexpr uint16_t LED1_PIN = 21;
 constexpr uint16_t LED2_PIN = 8;
 
 void setup_leds();
