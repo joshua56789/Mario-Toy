@@ -20,6 +20,22 @@ void toggle_led2() {
     gpio_put(LED2_PIN, !gpio_get(LED2_PIN));
 }
 
+void on_led1() {
+    gpio_put(LED1_PIN, 1);
+}
+
+void off_led1() {
+    gpio_put(LED1_PIN, 0);
+}
+
+void on_led2() {
+    gpio_put(LED2_PIN, 1);
+}
+
+void off_led2() {
+    gpio_put(LED2_PIN, 0);
+}
+
 void toggle_both_leds() {
     toggle_led1();
     toggle_led2();
