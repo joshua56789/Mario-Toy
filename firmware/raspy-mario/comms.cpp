@@ -126,3 +126,15 @@ bool poll_message(Message &msg) {
     return true;
 }
 
+void send_button_pressed() {
+    // Send a special button pressed message
+    const char* button_msg = "BUTTON_PRESSED";
+    printf(button_msg);
+}
+
+void send_button_released() {
+    // Send a special button released message
+    const char* button_msg = "BUTTON_RELEASED";
+    printf(button_msg);
+}
+

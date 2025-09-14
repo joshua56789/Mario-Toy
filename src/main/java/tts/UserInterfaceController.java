@@ -35,6 +35,10 @@ public class UserInterfaceController {
     private void initialize() {
         System.out.println("Initialized User Interface Controller");
         new Thread(() -> TextToSpeech.speak("Hello I am Mario, letsa start cooking!")).start();
+        new Thread(() -> { 
+            MCUInterface mcu = new MCUInterface(() -> this.toggleRecord());
+            mcu.monitorMCU();
+        }).start();
     }
 
     @FXML
@@ -81,40 +85,40 @@ public class UserInterfaceController {
     }
 
    @FXML
-private void toggleRecord() {
-    System.out.println("Toggle record button pressed");
-    if (isRecording) {
-        // Stop recording
-        isRecording = false;
-        Platform.runLater(() -> playButton.setText("▶"));
-        // Do audio processing in a background thread
-        new Thread(() -> {
-            byte[] audioBytes = SpeechToText.stopRecording();
-            String userText = "";
-            try {
-                if (audioBytes != null) {
-                    userText = SpeechToText.transcribeFromPcmBytes(audioBytes);
+    private void toggleRecord() {
+        System.out.println("Toggle record button pressed");
+        if (isRecording) {
+            // Stop recording
+            isRecording = false;
+            Platform.runLater(() -> playButton.setText("▶"));
+            // Do audio processing in a background thread
+            new Thread(() -> {
+                byte[] audioBytes = SpeechToText.stopRecording();
+                String userText = "";
+                try {
+                    if (audioBytes != null) {
+                        userText = SpeechToText.transcribeFromPcmBytes(audioBytes);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (userText == null || userText.isEmpty()) {
-                userText = "What is the next step?";
-            }
-            ChatGeneration.addMessage("user", userText);
-            System.out.println("User said: " + userText);
+                if (userText == null || userText.isEmpty()) {
+                    userText = "What is the next step?";
+                }
+                ChatGeneration.addMessage("user", userText);
+                System.out.println("User said: " + userText);
 
-            String response = ChatGeneration.generateResponse();
-            System.out.println("Mario response: " + response);
-            TextToSpeech.speak(response);
-            System.out.println("Recording stopped");
-        }).start();
-    } else {
-        isRecording = true;
-        Platform.runLater(() -> playButton.setText("⏸"));
-        new Thread(SpeechToText::startRecording).start();
-        System.out.println("Recording started");
+                String response = ChatGeneration.generateResponse();
+                System.out.println("Mario response: " + response);
+                TextToSpeech.speak(response);
+                System.out.println("Recording stopped");
+            }).start();
+        } else {
+            isRecording = true;
+            Platform.runLater(() -> playButton.setText("⏸"));
+            new Thread(SpeechToText::startRecording).start();
+            System.out.println("Recording started");
+        }
     }
-}
 
 }

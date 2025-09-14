@@ -64,3 +64,7 @@ void receive_message(Message &msg);
 // Non-blocking version - returns true if a message was received
 bool poll_message(Message &msg);
 
+void send_button_pressed();
+
+void send_button_released();
+
