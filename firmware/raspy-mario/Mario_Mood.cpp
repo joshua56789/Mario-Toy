@@ -4,13 +4,13 @@
 
 
 void mario_happy() {
-    set_servo_angle(90);      // Neutral position
+    // set_servo_angle(90);      // Neutral position
 }
 
 void mario_angry() {
-    set_servo_angle(0);       // Angry position
+    // set_servo_angle(0);       // Angry position
 }
 
 void mario_murder() {
-    set_servo_angle(180);     // Murderous position
+    // set_servo_angle(180);     // Murderous position
 }
