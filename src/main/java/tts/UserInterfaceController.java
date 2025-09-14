@@ -40,16 +40,8 @@ public class UserInterfaceController {
     @FXML
     private static void recipe(String dish) throws IOException {
         System.out.println("Recipe processing for: " + dish);
-        String resourcePath = "/prompts/" + dish + ".txt";
-        try (InputStream is = UserInterfaceController.class.getResourceAsStream(resourcePath)) {
-            if (is == null) {
-                throw new IOException("Prompt file not found: " + resourcePath);
-            }
-            String content = new String(is.readAllBytes());
-            ChatGeneration.recipe = content;
-            ChatGeneration.clearMessages();
-            new Thread(() -> TextToSpeech.speak("Now we are cooking " + dish + ". Ask me how to start!")).start();
-        }
+        new Thread(() -> TextToSpeech.speak("Now we are cooking " + dish + ". Ask me how to start!")).start();
+        ChatGeneration.changeRecipe(dish);
         System.out.println("Recipe loaded: " + ChatGeneration.recipe);
     }
 
