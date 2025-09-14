@@ -90,10 +90,10 @@ int main()
         //send_message(msg);
         //sleep_ms(1000);
         //stdio_flush();
-        //play_audio();
-         set_servo_angle(120);
-         sleep_ms(500);
-         set_servo_angle(0);
-         sleep_ms(500);
+        play_audio();
+        // set_servo_angle(150);
+        // sleep_ms(500);
+        // set_servo_angle(0);
+        // sleep_ms(500);
     }
 }
