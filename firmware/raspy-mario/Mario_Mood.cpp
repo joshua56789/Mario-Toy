@@ -9,8 +9,14 @@ void mario_happy() {
 }
 
 void mario_angry() {
-    set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 100);
-    set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 0);       // Angry position
+    for(int i = 0; i < 6; i++) {
+        set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 100);
+        set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 0);       // Angry position
+        sleep_ms(120);
+        set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 0);
+        set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 100);
+        sleep_ms(120);
+    }
 }
 
 void mario_neutral() {
