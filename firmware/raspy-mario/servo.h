@@ -2,7 +2,8 @@
 
 #include "pico/stdlib.h"
 
-constexpr uint16_t SERVO_PWM_PIN = 12;
+constexpr uint16_t MARIO_LEFT_ARM_SERVO_PIN = 12; // GPIO pin for left arm servo
+constexpr uint16_t MARIO_RIGHT_ARM_SERVO_PIN = 7; // GPIO pin for right arm servo
 constexpr uint16_t SERVO_WRAP_LEVEL = 60000;
 constexpr uint16_t SERVO_MIN_PERCENT_DUTY = (uint16_t)(SERVO_WRAP_LEVEL * 0.05f);
 constexpr uint16_t SERVO_MAX_PERCENT_DUTY = (uint16_t)(SERVO_WRAP_LEVEL * 0.12f);

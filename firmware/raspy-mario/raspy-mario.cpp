@@ -11,9 +11,8 @@
 #include "led.h"
 #include "tmp_audio.h"
 #include "comms.h"
+#include "Mario_Mood.h"
 
-constexpr uint16_t MARIO_LEFT_ARM_SERVO_PIN = 12; // GPIO pin for left arm servo
-constexpr uint16_t MARIO_RIGHT_ARM_SERVO_PIN = 7; // GPIO pin for right arm servo
 
 int main()
 {
@@ -68,6 +67,13 @@ int main()
         //  set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 100);
         //  sleep_ms(500);
         //  set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 150);
-         sleep_ms(500);
+        mario_happy();
+        sleep_ms(1000);
+        mario_angry();
+        sleep_ms(1000);
+        mario_neutral();
+        sleep_ms(1000);
+        mario_murder();
+        sleep_ms(1000);
     }
 }
