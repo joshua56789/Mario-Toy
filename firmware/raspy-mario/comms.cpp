@@ -1,6 +1,7 @@
 #include "comms.h"
 
 #include <stdio.h>
+#include <string.h>
 
 constexpr uint16_t BUFFER_SIZE = 1024;
 const char* message_start_string = "MSG_START";
@@ -10,6 +11,11 @@ static uint16_t buffer_index = 0; // Current index in the buffer
 static uint16_t unread_bytes = 0; // Number of unread bytes in the buffer
 static bool overflow = false; // Buffer overflow flag
 
+// Convenience function to check if a string is within another string
+bool string_within(const char* target, const char* within)
+{
+    return strstr(within, target) != nullptr;
+}
 
 void on_usb_cdc_rx_available(void* _param) {
     int c;
@@ -48,6 +54,17 @@ bool peak_chars(uint8_t* dest, uint16_t length) {
         dest[i] = message_buffer[(buffer_index + i) % BUFFER_SIZE];
     }
     return true;
+}
+
+void read_all_chars(char* dest) {
+    // Read all available characters into dest
+    for (uint16_t i = 0; i < unread_bytes; ++i) {
+        dest[i] = static_cast<char>(message_buffer[(buffer_index + i) % BUFFER_SIZE]);
+    }
+    dest[unread_bytes] = '\0'; // Null terminate
+    buffer_index = (buffer_index + unread_bytes) % BUFFER_SIZE;
+    unread_bytes = 0;
+    overflow = false;
 }
 
 void setup_comms() {
@@ -136,5 +153,25 @@ void send_button_released() {
     // Send a special button released message
     const char* button_msg = "BUTTON_RELEASED";
     printf(button_msg);
+}
+
+bool check_for_new_mood(MarioMood &new_mood) 
+{
+    // Check if a mood string exists in serial input
+    // Ignore the message code because its overkill
+    char serial_in[BUFFER_SIZE];
+    read_all_chars(serial_in);
+
+    const MarioMood moods[] = {NEUTRAL, HAPPY, ANGRY, RAMPAGE, MURDER};
+
+    for (size_t i = 0; i < sizeof(moods) / sizeof(MarioMood); ++i)
+    {
+        if (string_within(mood_to_string(moods[i]), serial_in))
+        {
+            new_mood = moods[i];
+            return true;
+        }
+    }
+    return false;
 }
 

@@ -31,13 +31,15 @@ public class UserInterfaceController {
     private boolean isRecording = false;
     private String userText = "";
 
+    private MCUInterface mcuInterface;
+
     @FXML
     private void initialize() {
         System.out.println("Initialized User Interface Controller");
+        mcuInterface = new MCUInterface(() -> this.toggleRecord());
         new Thread(() -> TextToSpeech.speak("Hello I am Mario, letsa start cooking!")).start();
         new Thread(() -> { 
-            MCUInterface mcu = new MCUInterface(() -> this.toggleRecord());
-            mcu.monitorMCU();
+            mcuInterface.monitorMCU();
         }).start();
     }
 
@@ -110,6 +112,7 @@ public class UserInterfaceController {
 
                 String response = ChatGeneration.generateResponse();
                 System.out.println("Mario response: " + response);
+                mcuInterface.sendRandomMood();
                 TextToSpeech.speak(response);
                 System.out.println("Recording stopped");
             }).start();

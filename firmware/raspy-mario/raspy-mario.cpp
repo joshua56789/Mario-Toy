@@ -68,15 +68,12 @@ int main()
         //  set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 100);
         //  sleep_ms(500);
         //  set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 150);
-        mario_happy();
-        sleep_ms(1000);
-        mario_angry();
-        sleep_ms(1000);
-        mario_neutral();
-        sleep_ms(1000);
-        mario_rampage();
-        sleep_ms(1000);
-        mario_murder();
-        sleep_ms(1000);
+        sleep_ms(500);
+        MarioMood new_mood;
+        if (check_for_new_mood(new_mood))
+        {
+            printf("New mood: %s\n", mood_to_string(new_mood));
+            set_mario_mood(new_mood);
+        }
     }
 }

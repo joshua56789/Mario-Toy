@@ -3,6 +3,43 @@
 #include "servo.h"
 
 
+const char* mood_to_string(MarioMood mood) {
+    switch (mood) {
+        case NEUTRAL:
+            return "NEUTRAL";
+        case HAPPY:
+            return "HAPPY";
+        case ANGRY:
+            return "ANGRY";
+        case RAMPAGE:
+            return "RAMPAGE";
+        case MURDER:
+            return "MURDER";
+    }
+}
+
+void set_mario_mood(MarioMood mood)
+{
+    switch (mood)
+    {
+        case NEUTRAL:
+            mario_neutral();
+            return;
+        case ANGRY:
+            mario_angry();
+            return;
+        case HAPPY:
+            mario_happy();
+            return;
+        case MURDER:
+            mario_murder();
+            return;
+        case RAMPAGE:
+            mario_rampage();
+            return;
+    }
+}
+
 void mario_happy() {
     off_led1();
     off_led2();

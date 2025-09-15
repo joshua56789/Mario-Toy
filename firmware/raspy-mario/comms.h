@@ -6,6 +6,8 @@
 
 #include "pico/stdlib.h"
 
+#include "Mario_Mood.h"
+
 typedef uint8_t audio_byte_t;
 
 // Message types
@@ -68,3 +70,4 @@ void send_button_pressed();
 
 void send_button_released();
 
+bool check_for_new_mood(MarioMood &new_mood);
