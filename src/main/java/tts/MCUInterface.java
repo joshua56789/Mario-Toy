@@ -87,7 +87,7 @@ public class MCUInterface {
     }
 
     public void sendRandomMood() {
-        String[] moods = {"HAPPY", "NEUTRAL", "ANGRY", "RAMPAGE", "MURDER"};
+        String[] moods = {"HAPPY", "NEUTRAL", "ANGRY", "RAMPAGE", "MURDER", "ABEGADOBAGO"};
         int idx = (int)(Math.random() * moods.length);
         sendMood(moods[idx]);
     }

@@ -8,6 +8,7 @@ enum MarioMood {
     ANGRY,
     RAMPAGE,
     MURDER,
+    ABEGADOBAGO,
 };
 
 const char* mood_to_string(MarioMood mood);

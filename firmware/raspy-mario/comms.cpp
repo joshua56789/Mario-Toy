@@ -162,7 +162,7 @@ bool check_for_new_mood(MarioMood &new_mood)
     char serial_in[BUFFER_SIZE];
     read_all_chars(serial_in);
 
-    const MarioMood moods[] = {NEUTRAL, HAPPY, ANGRY, RAMPAGE, MURDER};
+    const MarioMood moods[] = {NEUTRAL, HAPPY, ANGRY, RAMPAGE, MURDER, ABEGADOBAGO};
 
     for (size_t i = 0; i < sizeof(moods) / sizeof(MarioMood); ++i)
     {

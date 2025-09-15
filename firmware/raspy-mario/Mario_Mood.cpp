@@ -15,6 +15,8 @@ const char* mood_to_string(MarioMood mood) {
             return "RAMPAGE";
         case MURDER:
             return "MURDER";
+        case ABEGADOBAGO:
+            return "ABEGADOBAGO";
     }
 }
 
@@ -36,6 +38,9 @@ void set_mario_mood(MarioMood mood)
             return;
         case RAMPAGE:
             mario_rampage();
+            return;
+        case ABEGADOBAGO:
+            mario_abegadobago();
             return;
     }
 }
