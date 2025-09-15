@@ -26,7 +26,7 @@ public class MCUInterface {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
             System.out.println("Found port: " + port.getSystemPortName());
-            String[] validPorts = {"ttyACM0", "ttyACM1", "COM3"}; // Add other valid port names if needed
+            String[] validPorts = {"ttyACM0", "ttyACM1", "COM7", "COM6", "COM5", "COM4", "COM3", "COM2", "COM1"}; // Add other valid port names if needed
             // Check if port name is any of the valid ones
             if (java.util.Arrays.asList(validPorts).contains(port.getSystemPortName())) {
                 port.setBaudRate(115200);

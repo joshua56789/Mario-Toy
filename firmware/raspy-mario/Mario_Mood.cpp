@@ -60,11 +60,24 @@ void mario_angry() {
     }
 }
 
+void mario_abegadobago(){
+    off_led1();
+    off_led2();
+    for(int i = 0; i < 6; i++) {
+        set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 80);
+        set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 0);       // Angry position
+        sleep_ms(170);
+        set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 20);
+        set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 100);
+        sleep_ms(170);
+    }    // Neutral position
+}
+
 void mario_neutral() {
     off_led1();
     off_led2();
-    set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 0);
-    set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 100);     // Neutral position
+    set_servo_angle(MARIO_RIGHT_ARM_SERVO_PIN, 150);
+    set_servo_angle(MARIO_LEFT_ARM_SERVO_PIN, 0);     // Neutral position
 }
 
 void mario_rampage() {
