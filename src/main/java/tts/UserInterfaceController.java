@@ -112,8 +112,18 @@ public class UserInterfaceController {
 
                 String response = ChatGeneration.generateResponse();
                 System.out.println("Mario response: " + response);
-                mcuInterface.sendRandomMood();
+                // Look for a potential mood tag in response, it will be in format [MOOD]
+                if (response != null && response.startsWith("[")) {
+                    int endIdx = response.indexOf("]");
+                    if (endIdx != -1) {
+                        String mood = response.substring(1, endIdx);
+                        System.out.println("Detected mood: " + mood);
+                        mcuInterface.sendMood(mood);
+                    }
+                }
+                response = response.replaceAll("\\[.*?\\]", "").trim(); // Remove mood tag from response
                 TextToSpeech.speak(response);
+                mcuInterface.sendMood("NEUTRAL"); // Reset mood to neutral after speaking
                 System.out.println("Recording stopped");
             }).start();
         } else {
